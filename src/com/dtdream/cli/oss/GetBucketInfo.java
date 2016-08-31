@@ -18,7 +18,6 @@ import java.util.Set;
  * Created by thomugo on 2016/8/30.
  */
 public class GetBucketInfo extends Command{
-    private String [] parameters;
     private String bucketName;
     public GetBucketInfo(OssCommandFactory factory, String [] parameters) {
         super(factory);
@@ -96,11 +95,7 @@ public class GetBucketInfo extends Command{
 
     @Override
     public boolean parse(String[] parameters) {
-        System.out.printf("parse parameters: [ ");
-        for (int i = 0; i < parameters.length; i++) {
-            System.out.printf(parameters[i] + " ");
-        }
-        System.out.println("]");
+        displayParameters();
         if(1 == parameters.length){
             System.out.println("参数错误！。。");
             System.out.println("请输入 'deleteBucket -help '查看相关指令");

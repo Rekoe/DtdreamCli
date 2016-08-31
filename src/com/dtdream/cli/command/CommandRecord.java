@@ -33,7 +33,9 @@ public class CommandRecord {
     }
 
     public void setNextCommand(Command command) {
-        this.commandTrace.add(command);
+        if(command != null){
+            this.commandTrace.add(command);
+        }
     }
 
     public void popLastCommand() {

@@ -6,6 +6,8 @@ package com.dtdream.cli.command;
 public abstract class Command implements CommandParser{
     private static final String BACK = "back";
     private static final String GOTO = "goto";
+    protected String [] parameters;
+    private boolean debug = true;
     private ICommandFactory factory;
 
     public Command(ICommandFactory factory) {
@@ -51,6 +53,18 @@ public abstract class Command implements CommandParser{
             CommandRecord.getInstance().setNextCommand(this.getNextCommand(this.factory, input));
         }
 
+    }
+
+    public final void displayParameters(){
+        if(debug){
+            if(parameters != null){
+                System.out.printf("parse parameters: [ ");
+                for (int i = 0; i < parameters.length; i++) {
+                    System.out.printf(parameters[i] + " ");
+                }
+                System.out.println("]");
+            }
+        }
     }
 
 }

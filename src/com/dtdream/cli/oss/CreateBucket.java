@@ -19,7 +19,6 @@ import java.util.List;
  */
 public class CreateBucket extends Command{
     public static final String ID;
-    private String [] parameters;
     private String bucketName;
     //AccessControlList 访问权限
     private String acl;
@@ -107,11 +106,7 @@ public class CreateBucket extends Command{
 
     @Override
     public boolean parse(String[] parameters) {
-        System.out.printf("parse parameters: [ ");
-        for (int i = 0; i < parameters.length; i++) {
-            System.out.printf(parameters[i] + " ");
-        }
-        System.out.println("]");
+        displayParameters();
         if(1 == parameters.length){
             System.out.println("参数不全，请输入 createBucket --help 查看帮助");
         }

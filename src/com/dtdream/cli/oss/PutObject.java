@@ -6,14 +6,17 @@ import com.dtdream.cli.command.Command;
 import com.dtdream.cli.command.CommandRecord;
 import com.dtdream.cli.command.ICommandFactory;
 import com.dtdream.cli.oss.util.OssCommandFactory;
-import com.dtdream.cli.util.OssClient;
 
 /**
- * Created by thomugo on 2016/8/30.
+ * Created by thomugo on 2016/8/31.
  */
-public class GetBucketLocation extends Command{
+public class PutObject extends Command{
     private String bucketName;
-    public GetBucketLocation(OssCommandFactory factory, String [] parameters) {
+    private String key;
+    private String filename;
+    //默认采用流式上传方式上传文件
+    private boolean mode = true;
+    public PutObject(OssCommandFactory factory, String [] parameters) {
         super(factory);
         this.parameters = parameters;
     }
@@ -42,8 +45,7 @@ public class GetBucketLocation extends Command{
     public void doExecute() {
         if(parse(parameters)){
             try{
-                String location = OssClient.getInstance().getBucketLocation(bucketName);
-                System.out.println(location);
+
             }catch (OSSException oe) {
                 System.out.println("Caught an OSSException, which means your request made it to OSS, "
                         + "but was rejected with an error response for some reason.");
@@ -67,29 +69,49 @@ public class GetBucketLocation extends Command{
                 CommandRecord.getInstance().popLastCommand();
             }
         }
-
     }
 
     @Override
     public void help() {
-        System.out.println("getBucketLocation [bucketName] : 获取指定bucketName 的 Bucket Region ");
+        System.out.println("NAME");
+        System.out.println("    putObject - 使用简单方式上传文件，文件大小不能超过5GB");
+        System.out.println("SYNOPSIS");
+        System.out.println("    putObject [src(key)] [desc(bucketName)]");
+        System.out.println("DESCRIPTION");
+        System.out.println("    向指定的Bucket上传文件");
+        System.out.println("    -i  使用流式上传方式上传");
+        System.out.println("    -f  使用文件上传方式上传");
     }
 
     @Override
     public boolean parse(String[] parameters) {
         displayParameters();
-        if(1 == parameters.length){
-            System.out.println("参数错误！。。");
-            System.out.println("请输入 'deleteBucket -help '查看相关指令");
-            CommandRecord.getInstance().popLastCommand();
-            return false;
-        }else if(2 == parameters.length){
+        if(2 == parameters.length){
             if(parameters[1].equals("-help") || parameters[1].equals("--help")){
                 help();
+            }else{
+                System.out.println("参数错误！。。");
+                System.out.println("请输入 'putObject -help '查看相关指令");
+            }
+            CommandRecord.getInstance().popLastCommand();
+            return false;
+        }else if(3 == parameters.length){
+            key = parameters[1];
+            bucketName = parameters[2];
+        }else if(4 == parameters.length){
+            if(parameters[3].equalsIgnoreCase("-i")){
+                mode = true;
+                key = parameters[1];
+                bucketName = parameters[2];
+            }else if(parameters[3].equalsIgnoreCase("-f")){
+                mode = false;
+                key = parameters[1];
+                bucketName = parameters[2];
+            }else{
+                System.out.println("参数错误！。。");
+                System.out.println("请输入 'deleteBucket -help '查看相关指令");
                 CommandRecord.getInstance().popLastCommand();
                 return false;
-            }else{
-                bucketName = parameters[1];
             }
         }else{
             System.out.println("参数错误！。。");

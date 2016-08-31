@@ -13,7 +13,6 @@ import com.dtdream.cli.util.OssClient;
  * Created by thomugo on 2016/8/30.
  */
 public class SetBucketAcl extends Command{
-    private String [] parameters;
     private String bucketName;
     private String acl;
     public SetBucketAcl(OssCommandFactory factory, String [] parameters) {
@@ -87,11 +86,7 @@ public class SetBucketAcl extends Command{
 
     @Override
     public boolean parse(String[] parameters) {
-        System.out.printf("parse parameters: [ ");
-        for (int i = 0; i < parameters.length; i++) {
-            System.out.printf(parameters[i] + " ");
-        }
-        System.out.println("]");
+        displayParameters();
         if(1 == parameters.length){
             System.out.println("参数不全，请输入 setBucketAcl -help 查看帮助");
             CommandRecord.getInstance().popLastCommand();

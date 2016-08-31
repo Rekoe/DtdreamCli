@@ -5,8 +5,6 @@ import com.dtdream.cli.command.ICommandFactory;
 import com.dtdream.cli.oss.util.OssCommandFactory;
 import com.dtdream.cli.util.Config;
 import com.dtdream.cli.util.OssClient;
-import com.dtdream.cli.util.Util;
-
 import java.io.IOException;
 import java.util.Arrays;
 import java.util.Scanner;

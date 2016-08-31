@@ -15,7 +15,6 @@ import com.dtdream.cli.util.OssClient;
  * Created by thomugo on 2016/8/30.
  */
 public class ListBuckets extends Command{
-    private String [] parameters;
     private String prefix;
     public ListBuckets(OssCommandFactory factory, String [] parameters) {
         super(factory);
@@ -86,11 +85,7 @@ public class ListBuckets extends Command{
 
     @Override
     public boolean parse(String[] parameters) {
-        System.out.printf("parse parameters: [ ");
-        for (int i = 0; i < parameters.length; i++) {
-            System.out.printf(parameters[i] + " ");
-        }
-        System.out.println("]");
+        displayParameters();
 
         if(1 == parameters.length){
             prefix = "";
