@@ -1,0 +1,137 @@
+package com.dtdream.cli.ecs.instance;
+
+import com.aliyuncs.ecs.model.v20140526.DescribeInstanceStatusRequest;
+import com.aliyuncs.ecs.model.v20140526.DescribeInstanceStatusResponse;
+import com.aliyuncs.exceptions.ClientException;
+import com.aliyuncs.exceptions.ServerException;
+import com.dtdream.cli.command.Command;
+import com.dtdream.cli.command.CommandParser;
+import com.dtdream.cli.command.CommandRecord;
+import com.dtdream.cli.command.ICommandFactory;
+import com.dtdream.cli.ecs.util.EcsCommandFactory;
+import com.dtdream.cli.util.EcsClient;
+
+import java.util.List;
+
+/**
+ * Created by thomugo on 2016/10/25.
+ */
+public class DescribeInstanceStatus extends Command implements CommandParser {
+    private int pageNum = 1;
+    private int pageSize = 10;
+    public DescribeInstanceStatus(EcsCommandFactory factory, String [] parameters) {
+        super(factory);
+        this.parameters = parameters;
+
+    }
+
+    @Override
+    public String getInput() {
+        return null;
+    }
+
+    @Override
+    public boolean checkInput(String var1) {
+        return false;
+    }
+
+    @Override
+    public String getCommandKey() {
+        return null;
+    }
+
+    @Override
+    public Command getNextCommand(ICommandFactory var1, String var2) {
+        return null;
+    }
+
+    @Override
+    public void doExecute() {
+        if(parse(parameters)){
+            DescribeInstanceStatusRequest request = new DescribeInstanceStatusRequest();
+            request.setPageNumber(pageNum);
+            request.setPageSize(pageSize);
+            try{
+                DescribeInstanceStatusResponse response = EcsClient.getInstance().getAcsResponse(request);
+                List<DescribeInstanceStatusResponse.InstanceStatus> list = response.getInstanceStatuses();
+                for (DescribeInstanceStatusResponse.InstanceStatus status : list){
+                    System.out.println("InstanceID: " + status.getInstanceId() + "\b Status: " + status.getStatus());
+                }
+            } catch (ServerException e) {
+                e.printStackTrace();
+            } catch (ClientException e) {
+                e.printStackTrace();
+            } finally {
+                CommandRecord.getInstance().popLastCommand();
+            }
+        }
+    }
+
+    @Override
+    public void help() {
+        System.out.println("NAME");
+        System.out.println("    describeInstanceStatus");
+        System.out.println("SYNOPSIS");
+        System.out.println("    describeInstanceStatus [options] ");
+        System.out.println("DESCRIPTION");
+        System.out.println("    -- 查询ECS实例状态");
+        System.out.println("Options");
+        System.out.println("    -n ");
+        System.out.println("         --pageNum, 页码（默认为1）");
+        System.out.println("    -s");
+        System.out.println("         --pageSize, 页大小（默认为10，最大为50）");
+    }
+
+    @Override
+    public boolean parse(String[] parameters) {
+        displayParameters();
+        int index = 0;
+        while(parameters.length>index && parameters.length<=5){
+            switch (parameters[index]){
+                case "describeInstanceStatus" :
+                    index++;
+                    break;
+                case "-help" :
+                case "--help" :
+                    help();
+                    CommandRecord.getInstance().popLastCommand();
+                    return false;
+                case "-n" :
+                    index++;
+                    if(parameters.length > index){
+                        pageNum = Integer.parseInt(parameters[index]);
+                        index++;
+                        break;
+                    }else{
+                        System.out.println("参数错误");
+                        System.out.println("请输入 'describeInstanceStatus -help '查看相关指令");
+                        CommandRecord.getInstance().popLastCommand();
+                        return false;
+                    }
+                case "-s" :
+                    index++;
+                    if(parameters.length > index){
+                        pageSize = Integer.parseInt(parameters[index]);
+                        index++;
+                        break;
+                    }else{
+                        System.out.println("参数错误");
+                        System.out.println("请输入 'describeInstanceStatus -help '查看相关指令");
+                        CommandRecord.getInstance().popLastCommand();
+                        return false;
+                    }
+                default:
+                    System.out.println("参数错误");
+                    System.out.println("请输入 'describeInstanceStatus -help '查看相关指令");
+                    CommandRecord.getInstance().popLastCommand();
+                    return false;
+            }
+        }
+        return true;
+    }
+
+    @Override
+    public boolean checkParameters() {
+        return false;
+    }
+}

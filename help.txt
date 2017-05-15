@@ -1,0 +1,7 @@
+﻿#将jar包加入本地依赖库：
+mvn install:install-file -Dfile=D:/workspace/deploy/DtdreamCli/lib/erms-api-1.1.0-SNAPSHOT.jar -DgroupId=com.aliyun.shared -DartifactId=erms-api -Dversion=1.1.0-SNAPSHOT -Dpackaging=jar
+
+#maven package 打包需修改的路径
+1. Main.java
+2. spring.xml
+

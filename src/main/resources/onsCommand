@@ -1,0 +1,3 @@
+dtdream mq createTopic -r shihua -i 1287184127394316 -o false -t thomugo_test -n dtcenter -R thomugo -c cluster
+dtdream mq listTopics -r shihua -i 1287184127394316 -t thomugo
+dtdream mq deleteTopic -r shihua -i 1287184127394316 -t thomugo_test11

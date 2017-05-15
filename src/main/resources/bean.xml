@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xmlns:dubbo="http://repo.alibaba-inc.com/schema/dubbo"
+       xmlns="http://www.springframework.org/schema/beans"
+       xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.0.xsd http://repo.alibaba-inc.com/schema/dubbo http://repo.alibaba-inc.com/schema/dubbo/dubbo-component.xsd"
+       default-autowire="byName">
+    <!-- 注册中心声明 -->
+    <dubbo:application name="dtdream"/>
+    <dubbo:registry address="${dubbo.registry.address}"/>
+    <!-- dubbo协议配置 -->
+    <dubbo:protocol name="dubbo" port="-1" threads="5"/>
+    <!-- 消费的服务引用 -->
+    <dubbo:reference id="resSetManage" interface="com.aliyun.erms.api.ResSetManage"
+                     version="${dubbo.resSetManage.version}" check="false" timeout="5000" retries="1" protocol="dubbo"/>
+    <dubbo:reference id="resCenterManage" interface="com.aliyun.erms.api.ResCenterManage"
+                     version="${dubbo.resCenterManage.version}" check="false" timeout="5000" retries="1" protocol="dubbo"/>
+
+</beans>

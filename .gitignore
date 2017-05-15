@@ -1,15 +1,21 @@
+# Package Files #
+*.war
+*.ear
 *.class
-
+*.iml
 # Mobile Tools for Java (J2ME)
 .mtj.tmp/
 
-# Package Files #
-*.jar
-*.war
-*.ear
-.idea/workspace.xml
+/META-INF
+out
+target
+.idea
+DtdreamCli.iml
+dependency-reduced-pom.xml
 src/META-INF/MANIFEST.MF
 out/*
 .idea/artifacts/*
+logs/*
+
 # virtual machine crash logs, see http://www.java.com/en/download/help/error_hotspot.xml
 hs_err_pid*
